@@ -1,4 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+:root {
+    --color1: whitesmoke;
+    --color2: rgb(97, 97, 97);
+    --color3: rgb(167, 135, 135);
+    --font-color1: black;
+    --font-color2: whitesmoke;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
 .icon {
     font-size: 20px;
     color: black;
+    padding: 8px;
+}
+
+.home, .list-edit{
+    box-sizing: border-box;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home:hover, .list-edit:hover {
+    background-color: grey;
+    border-radius: 50%;    
+}
+
+.container {
+    background-color: var(--color1);
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    grid-template-rows: min-content 1fr min-content;
+    height: 100vh;
+}
+
+.header {
+    grid-column: 1 / span 2;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    align-items: center;
+    font-size: 24px;
+}
+
+.sidebar {
+    background-color: var(--color2);
+    display: flex;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+}
+
+.lists {
+    border: 1px solid black;
+    margin: 0;
+    padding: 0;
+}
+
+.lists > li {
+    list-style-type: none;
+    display: flex;
+    gap: 8px;
+    padding: 8px 16px;
+    align-items: center;
+}
+
+.nav > .btns {
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+}
+
+.btn {
+    background-color: grey;
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 8px;
+}
+
+.exp-col {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+}
+
+.exp-col:hover {
+    background-color: grey;
+}
+
+.content {
+    background-color: var(--color3);
+}
+
+.footer {
+    background-color: var(--color1);
+    color: var(--font-color1);
+    grid-column: 1 / span 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    font-size: 20px;
+}
+
+.fa-github {
+    color: var(--font-color1);
+    font-size: 24px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.fa-github:hover {
+    transform: rotate(360deg) scale(1.2);
 }
