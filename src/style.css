@@ -23,7 +23,7 @@ body {
     padding: 8px;
 }
 
-.home, .list-edit{
+.home{
     box-sizing: border-box;
     height: 40px;
     width: 40px;
@@ -32,7 +32,7 @@ body {
     align-items: center;
 }
 
-.home:hover, .list-edit:hover {
+.home:hover {
     background-color: grey;
     border-radius: 50%;    
 }
@@ -62,7 +62,20 @@ body {
 .nav {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
     padding: 8px;
+    max-width: 173px;    
+}
+
+.nav-collapse {
+    padding: 8px 0px;
+    max-width: 0;    
+}
+
+.list-header {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .lists {
@@ -90,6 +103,7 @@ body {
     padding: 6px 12px;
     font-size: 12px;
     border-radius: 8px;
+    height: min-content;
 }
 
 .exp-col {
@@ -103,8 +117,26 @@ body {
     background-color: grey;
 }
 
+.exp-col-flip {
+    transform: rotate(180deg);
+}
+
 .content {
     background-color: var(--color3);
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+}
+
+.add-todo {
+    padding: 8px 16px;
+    background-color: aliceblue;
+    width: min-content;
+    white-space: nowrap;
+}
+
+.add-todo:hover {
+    background-color: antiquewhite;
 }
 
 .footer {
