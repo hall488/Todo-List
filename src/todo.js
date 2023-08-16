@@ -1,4 +1,4 @@
-const todo = (title, description, priority, due) => {
+const todo = (title, description, due, priority) => {
     
     let completed = false;
 
