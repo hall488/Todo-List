@@ -19,7 +19,8 @@ let poo = [];
 const sidebarDOM = () => {
     let expand = false;
     let container = document.querySelector('.container');
-    let expColBtn = document.querySelector('.exp-col');
+    let expColBtn = document.querySelector('.exp-col-container');
+    let expColIcon = document.querySelector('.exp-col');
     let nav = document.querySelector('.nav');
     let header = document.querySelector('.header');
     let footer = document.querySelector('.footer');
@@ -40,11 +41,11 @@ const sidebarDOM = () => {
 
     let setSidebar = () => {
         if(verticalLayout) {
-            expand  ?   (nav.classList.remove('nav-collapse'), nav.classList.add('nav-collapse-vertical'), expColBtn.classList.add('exp-col-flip'))
-                    :   (nav.classList.remove('nav-collapse-vertical'), nav.classList.remove('nav-collapse'), expColBtn.classList.remove('exp-col-flip'));
+            expand  ?   (nav.classList.remove('nav-collapse'), nav.classList.add('nav-collapse-vertical'), expColIcon.classList.add('exp-col-flip'))
+                    :   (nav.classList.remove('nav-collapse-vertical'), nav.classList.remove('nav-collapse'), expColIcon.classList.remove('exp-col-flip'));
         } else {
-            expand  ?   (nav.classList.remove('nav-collapse-vertical'), nav.classList.add('nav-collapse'), expColBtn.classList.add('exp-col-flip'))
-                    :   (nav.classList.remove('nav-collapse-vertical'), nav.classList.remove('nav-collapse'), expColBtn.classList.remove('exp-col-flip'));
+            expand  ?   (nav.classList.remove('nav-collapse-vertical'), nav.classList.add('nav-collapse'), expColIcon.classList.add('exp-col-flip'))
+                    :   (nav.classList.remove('nav-collapse-vertical'), nav.classList.remove('nav-collapse'), expColIcon.classList.remove('exp-col-flip'));
         }
     }
 
@@ -80,13 +81,14 @@ const sidebarDOM = () => {
         // }
 
         newListMenu.style.display = 'flex';
+        newListMenu.querySelector('#list-name').focus();
     }
 
     document.querySelector('.cancel-list').addEventListener('click', () => {
         newListMenu.style.display = 'none';
     })
-    
-    document.querySelector('.add-list').addEventListener('click', () => {
+
+    const newListFunc = () => {
         let data = new FormData(newListMenu);
         let val = data.entries();
         let args = [];
@@ -110,12 +112,25 @@ const sidebarDOM = () => {
             // bookMenu.reset();
             // bookMenu.style.display = 'none';
         }
+    }
+
+    newListMenu.addEventListener('keypress', e => {
+        var keyCode = e.keyCode || e.which;
+        if(keyCode == 13) {
+            e.preventDefault();
+            newListFunc();
+        }
+    })
+    
+    document.querySelector('.add-list').addEventListener('click', () => {
+       newListFunc();
     })
 
     const addList = (name) => {
         poo.push(name);
         localStorage.setItem('christopherhLists', poo);
         populateSidebar(name);
+        contentDOM.setList(listArray[listArray.length - 1]);
     }
 
     addBtn.addEventListener('click', newList);

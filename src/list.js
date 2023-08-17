@@ -12,6 +12,16 @@ const listDOM = activeList => {
 
     newBtn.textContent = 'Add Todo';
     let todoContainer = tagClass('div', 'todo-container');
+
+    let sortPriority = tagClass('div', 'new-todo');
+    sortPriority.textContent = 'Sort By Priority';
+
+    let sortTitle = tagClass('div', 'new-todo');
+    sortTitle.textContent = 'Sort By Title';
+
+    let sortDue = tagClass('div', 'new-todo');
+    sortDue.textContent = 'Sort By Date';
+    
     //on addbtn click prompt new book
 
     const setList = l => {
@@ -20,10 +30,16 @@ const listDOM = activeList => {
         if(activeList == undefined || activeList == null) {
             todoContainer.innerHTML = '';
             newBtn.style.display = 'none';
+            sortPriority.style.display = 'none';
+            sortTitle.style.display = 'none';
+            sortDue.style.display = 'none';
             listTitle.textContent = 'You have no lists!'
         } else {
             listTitle.textContent = activeList.getName();
             newBtn.style.display = 'block';
+            sortPriority.style.display = 'block';
+            sortTitle.style.display = 'block';
+            sortDue.style.display = 'block';
             update(activeList);
         }
         
@@ -31,12 +47,24 @@ const listDOM = activeList => {
 
     const getList = () => activeList;
 
+    sortPriority.addEventListener('click', () => {
+        activeList.setSort(sortByPriority);
+        update(activeList);
+    })
+
+    sortTitle.addEventListener('click', () => {
+        activeList.setSort(sortByAlphabetical);
+        update(activeList);
+    })
+
+    sortDue.addEventListener('click', () => {
+        activeList.setSort(sortByDue);
+        update(activeList);
+    })
+
     let activeEdit;
 
-    addBtn.addEventListener('click', e => {
-        // dList.addTodo(`Title${count}`, 'desc', 'Minor', 'fart');
-        // update(dList.getTodos());
-        
+    const menuFunc = () => {
         let data = new FormData(todoMenu);
         let val = data.entries();
         let args = [];
@@ -64,7 +92,27 @@ const listDOM = activeList => {
             // bookMenu.reset();
             // bookMenu.style.display = 'none';
         }
+    }
+
+
+    addBtn.addEventListener('click', e => {
+        // dList.addTodo(`Title${count}`, 'desc', 'Minor', 'fart');
+        // update(dList.getTodos());
+        
+        menuFunc();
     });
+
+    todoMenu.addEventListener('keypress', e => {
+        var keyCode = e.keyCode || e.which;
+        if(keyCode == 13 && !e.shiftKey) {
+            e.preventDefault();
+            menuFunc();
+        } 
+        // else if(keyCode == 13 && document.activeElement === todoMenu.querySelector('#description')) {
+        //     console.log('d');
+        //     todoMenu.querySelector('#description').value += '\n';
+        // }
+    })
 
     const editTodo = (t) => {
         todoMenu.querySelector('.todo-title').textContent = 'Edit Todo';
@@ -75,6 +123,7 @@ const listDOM = activeList => {
         todoMenu.querySelector('#description').defaultValue = t.getDescription();
         todoMenu.querySelector('#due').defaultValue = t.getDue();
         todoMenu.querySelector('#priority').defaultValue = t.getPriority();
+        todoMenu.querySelector('#title').focus();
     }
 
     newBtn.addEventListener('click', () => {
@@ -86,6 +135,7 @@ const listDOM = activeList => {
         todoMenu.querySelector('#description').defaultValue = '';
         todoMenu.querySelector('#due').defaultValue = '';
         todoMenu.querySelector('#priority').defaultValue = '';
+        todoMenu.querySelector('#title').focus();
     });
 
     cnlBtn.addEventListener('click', () => {
@@ -111,13 +161,12 @@ const listDOM = activeList => {
         div.append(title, description, due, icons);
 
         title.textContent = t.getTitle();
-        description.textContent = t.getDescription();
+        description.innerHTML = t.getDescription().replace(/\n/g, "<br />");
         due.textContent = t.getDue();
 
         let iconArray = [
-            ['removeTodo', 'fa-solid', 'fa-trash'],
             ['editTodo', 'fa-solid', 'fa-ellipsis'],
-            ['setComplete', 'fa-solid', 'fa-circle-check']
+            ['removeTodo', 'fa-solid', 'fa-circle-check']
         ];
 
         iconArray.forEach(a => {
@@ -137,9 +186,9 @@ const listDOM = activeList => {
         });
 
         let color = {
-            'Urgent': 'red',
-            'Normal': 'yellow',
-            'Minor': 'green'
+            'Urgent': 'lightcoral',
+            'Normal': 'khaki',
+            'Minor': 'lightGreen'
         }
 
         div.style.background = color[t.getPriority()];
@@ -148,8 +197,13 @@ const listDOM = activeList => {
 
     let content = document.querySelector('.content');
     content.innerHTML = '';
-    content.append(listTitle, newBtn, todoContainer);
+    let btnDiv = tagClass('div', 'btnDiv');
+    btnDiv.append(newBtn, sortPriority, sortTitle, sortDue);
+    content.append(listTitle, btnDiv, todoContainer);
     newBtn.style.display = 'none';
+    sortPriority.style.display = 'none';
+    sortTitle.style.display = 'none';
+    sortDue.style.display = 'none';
     setList(activeList);
 
     return {setList, getList};
@@ -172,7 +226,12 @@ const list = (name, data = []) => {
     // });
 
     let sortBy = sortByAlphabetical;
-    let setSort = s => sortBy = s;
+    let setSort = s => {
+        sortBy = s;
+        todos.sort( (t1, t2) => {
+            return sortBy(t1, t2);
+        });
+    };
 
     const addTodo = (...args) => {
         todos.push(todo(...args));
@@ -214,15 +273,56 @@ const list = (name, data = []) => {
 }
 
 const sortByAlphabetical = (a, b) => {
-    return 1;
+    let p1 = a.getTitle().toLowerCase();
+    let p2 = b.getTitle().toLowerCase();
+
+    return p1 > p2 ? 1 : -1; 
 }
 
 const sortByPriority = (a, b) => {
+    let p1 = a.getPriority();
+    let p2 = b.getPriority();
 
+    let val;
+
+    switch(p1) {
+        case 'Urgent': 
+            if(p2 == 'Urgent') {
+                val = 1; 
+                break;
+            } else {
+                val = -1; break;
+            }
+        case 'Normal':
+            if(p2 == 'Urgent' || p2 == 'Normal') {
+                val = 1; 
+                break;
+            } else {
+                val = -1; break;
+            }
+                
+        case 'Minor':
+            val = 1; break;
+    }
+    return val;
 }
 
 const sortByDue = (a, b) => {
+    let [a1,a2,a3] = a.getDue().split('-');
+    let [b1,b2,b3] = b.getDue().split('-');
 
+    console.log(a1,a2,a3);
+
+    if(a1 > b1) return 1;
+    else if(a1 == b1) {
+        if(a2 > b2) return 1;
+        else if(a2 == b2) {
+            if(a3 > b3) return 1;
+            else if(a3 == b3) return 1;
+        }
+    }
+    
+    return -1;
 }
 
 const saveList = (name, todos) => {

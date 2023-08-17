@@ -19,8 +19,7 @@ body {
 
 .icon {
     font-size: 20px;
-    color: black;
-    padding: 8px;
+    padding: 0px 8px;
 }
 
 .home{
@@ -60,6 +59,7 @@ body {
     padding: 8px;
     align-items: center;
     font-size: 24px;
+    color: rgba(0,0,0,.5);
 }
 
 .header-vertical {
@@ -70,7 +70,10 @@ body {
 
 
 .sidebar {
-    background-color: var(--color2);
+    background-color: lightskyblue;
+    border: 5px solid rgba(0,0,0, .25);
+    border-left: 0;
+    border-radius: 0 20px 20px 0;
     display: flex;
 }
 
@@ -78,18 +81,26 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: 5px solid rgba(0,0,0, .25);
+    border-radius: 0 0 20px 20px;
 }
 
-.sidebar-vertical > .exp-col {
+.sidebar-vertical > .exp-col-container {
     display: flex;
     align-self: stretch;
     justify-content: center;
-    
 }
 
-.sidebar-vertical > .exp-col > svg {
+.exp-col-flip {
+    transform: rotate(180deg);
+}
+
+.sidebar-vertical > .exp-col-container > .exp-col > svg{
     transform: rotate(0deg);
 }
+
+
+
 
 .nav {
     display: flex;
@@ -98,6 +109,8 @@ body {
     padding: 8px;
     max-width: 173px;
     width: 173px; 
+    
+
 }
 .nav-vertical {
     max-height: 500px;
@@ -113,14 +126,16 @@ body {
     max-height: 0;
 }
 
-.list-header {
+.nav-header {
     display: block;
     overflow: hidden;
     white-space: nowrap;
+    border-bottom: 5px solid rgba(0,0,0,.25);
+    color: rgba(0,0,0, .5);
+    padding: 8px;
 }
 
 .lists {
-    border: 1px solid black;
     margin: 0;
     padding: 0;
     display: flex;
@@ -128,6 +143,7 @@ body {
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
+    color: rgba(0,0,0, .5);
 }
 
 .list-goto {
@@ -138,8 +154,9 @@ body {
     flex: 1;
 }
 
+
 .list-goto:hover {
-    background-color: grey;
+    color:whitesmoke
 }
 
 .lists > li {
@@ -158,7 +175,10 @@ body {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    border-bottom: 2px solid rgba(0,0,0, .25);
+    padding: 5px;
 }
+
 
 .nav > .btns {
     display: flex;
@@ -169,15 +189,21 @@ body {
 .btn {
     flex: 1;
     text-align: center;
-    background-color: grey;
+    border:5px solid rgba(0,0,0, .25);
     padding: 6px 12px;
     font-size: 12px;
     border-radius: 8px;
     height: min-content;
+    color: rgba(0,0,0,.5)
 }
 
 .btn:hover {
-    background-color: aqua;
+    background-color: whitesmoke;
+}
+
+.exp-col-container {
+    display: flex;
+    align-items: center;
 }
 
 .exp-col {
@@ -187,56 +213,111 @@ body {
     padding: 4px;
 }
 
-.exp-col:hover {
-    background-color: grey;
+.exp-col-container:hover {
+    background-color: rgba(0,0,0, .25);
+    border-radius: 0 15px 15px 0px ;
 }
 
-.exp-col-flip {
-    transform: rotate(180deg);
+.sidebar-vertical > .exp-col-container:hover {
+    background-color: rgba(0,0,0, .25);
+    border-radius: 0 0 15px 15px;
 }
+
+
 
 .content {
-    background-color: var(--color3);
+    background-color: whitesmoke;
     display: flex;
     flex-direction: column;
     padding: 8px;
 }
 
+.btnDiv {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    color: rgba(0,0,0, .5);
+    border-bottom: 5px solid rgba(0,0,0,.25);
+}
+
+.list-header {
+    padding: 10px;
+    border-bottom: 5px solid rgba(0,0,0,.25);
+    text-align: center;
+    color: rgba(0,0,0, .5);
+}
+
+
+input {
+    
+}
+
 .new-list {
     display: none;
     position: fixed;
-    left: 25%;
+    left: calc(50% - 100px);
+    right: calc(50% - 100px);
     top: 25%;
-    right: 25%;
     flex-direction: column;
-    background-color: whitesmoke;
+    background-color: lightskyblue;
+    border:5px solid rgba(0,0,0, .25);
     padding: 16px;
     gap: 8px;
     border-radius: 16px;
+    color: rgba(0,0,0, .5);
+}
+
+.dnew-list > #list-name {
+    background-color: whitesmoke;
+    border: 5px solid rgba(0,0,0, .25);
 }
 
 .todo-menu {
     display: none;
     position: fixed;
-    left: 25%;
+    left: calc(50% - 150px);
+    right: calc(50% - 150px);
     top: 25%;
-    right: 25%;
     flex-direction: column;
-    background-color: whitesmoke;
+    background-color: lightskyblue;
+    border:5px solid rgba(0,0,0, .25);
     padding: 16px;
     gap: 8px;
     border-radius: 16px;
+    color: rgba(0,0,0, .5);
+}
+
+.todo-menu > .btns, .new-list > .btns {
+    display: flex;
+    gap: 8px;
+}
+
+.todo-menu > .btns > button, .new-list > .btns > button {
+    border: 2px solid rgba(0,0,0, .25);
+    background-color: lightskyblue;
+    color: rgba(0,0,0, .5);
+    border-radius: 5px;
+}
+
+.todo-menu > .btns > button:hover, .new-list > .btns > button:hover {
+    background-color: whitesmoke;
+}
+
+.todo-menu
+input, textarea , select{
+    color: rgba(0,0,0, .75);
 }
 
 .new-todo {
     padding: 8px 16px;
-    background-color: aliceblue;
     width: min-content;
     white-space: nowrap;
 }
 
 .new-todo:hover {
-    background-color: antiquewhite;
+    background-color: rgba(0,0,0,.25);
+    color:whitesmoke
 }
 
 .todo-container {
@@ -252,12 +333,17 @@ body {
     flex-direction: column;
     gap: 8px;
     padding: 8px;
+    border-radius: 20px;
+    border: 5px solid rgba(0,0,0, .25);
+    color: #FFF;
+    color: rgba(0,0,0,.5);
 }
 
 .todo > .description {
     flex: 1;
     overflow-y: auto;
     word-wrap: break-word;
+    border-bottom: 2px solid rgba(0,0,0, .25);
 }
 
 .todo > .icons {
@@ -265,13 +351,14 @@ body {
     justify-content: flex-end;
 }
 
-.todo > .icons > .icon:hover {
+.icons > .icon:hover {
     color: whitesmoke;
 }
 
+
 .footer {
     background-color: var(--color1);
-    color: var(--font-color1);
+    color: rgba(0,0,0,.5);
     grid-column: 1 / span 2;
     display: flex;
     justify-content: center;
@@ -286,7 +373,7 @@ body {
 }
 
 .fa-github {
-    color: var(--font-color1);
+    color: rgba(0,0,0,.5);
     font-size: 24px;
     transition: transform 0.3s ease-in-out;
 }
